@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Emergency Room Wait Times</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      #geolocate {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+        background-color: #fff;
+        border-radius: 3px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        font-size: 16px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      #geolocate:hover {
+        background-color: #a3edff;
+      }
+      #geolocate-text {
+        display: inline-block;
+        margin-right: 5px;
+      }
+      #wait-times {
+        position: absolute;
+        top: 50px;
+        left: 10px;
+        z-index: 1;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        font-size: 16px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      #wait-times:hover {
+        background-color: #ff8a8a;
+      }
+      #wait-times-text {
+        display: inline-block;
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="geolocate">
+      <span id="geolocate-text">Click here to display your current location</span>
+    </div>
+    <div id="wait-times">
+      <a href="http://www.edwaittimes.ca/WaitTimes.aspx" target="_blank"><span id="wait-times-text">Click here to view current ER wait times</span></a>
+    </div>
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoiYWR2ZXJzYXJpYWwtZ2VvZ3JhcGh5IiwiYSI6ImNsZjBvN3FqbjAwZDkzcmw0MGsxNDJ3MDIifQ.aVzxEUcFBUiojBtwfqYe6w';
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/adversarial-geography/clf32mk3c001m01pweweu9m5z',
+        center: [-123, 49.2], 
+        zoom: 10
+      });
+
+      const geolocate = document.getElementById('geolocate');
+      const geolocateControl = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true
+        },
+        trackUserLocation: true,
+        showUserHeading: true
+      });
+      map.addControl(geolocateControl);
+
+      geolocate.addEventListener('click', () => {
+        geolocateControl.trigger();
+      });
+    </script>
+  </body>
+</html>
